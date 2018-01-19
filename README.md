@@ -2,6 +2,16 @@ nix-beautify is a tool to indent/format nix based source code and data structure
 
 # usage
 
+# installation
+
+    git clone https://github.com/nixcloud/nix-beautify
+    cd nix-beautify
+    nix-env -i nix-beautify -f default.nix
+
+# usage
+
+    cat code.nix | nix-beautify
+
 ## code.nix
 
     [
@@ -25,9 +35,9 @@ nix-beautify is a tool to indent/format nix based source code and data structure
     }
     ]
 
-## using nix-beautify
+## processed output
 
-    cat code.nix | node beautify.js 
+    cat code.nix | nix-beautify
     [  
       {
         fetch = {
