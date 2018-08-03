@@ -10,10 +10,10 @@ pkgs.stdenv.mkDerivation {
     mkdir -p $out/bin
     mkdir -p $out/js
     cp $src/nix-beautify.js $out/js
-    cat > $out/bin/nix-beauitfy << EOF
+    cat > $out/bin/nix-beautify << EOF
     #!/usr/bin/env bash 
     ${nodejs}/bin/node $out/js/nix-beautify.js
     EOF
-    chmod u+x $out/bin/nix-beauitfy
+    chmod u+x $out/bin/nix-beautify
   '';
 }
