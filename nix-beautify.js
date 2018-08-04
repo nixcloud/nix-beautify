@@ -28,20 +28,30 @@ function format(input) {
   var splitDoc = input.split("\n");
 
   for (var i = 0; i < splitDoc.length; i++){
+    //failesafe that is needed because multiline comments as well as multiline strings are currently not detected
+    if (indent < 0) {
+        indent = 0;
+    }
+
     var line = splitDoc[i];
 
     // cut comments
-    var commentStart = line.indexOf('#');
     var trimmedLine = line.trim();
+    var commentStart = trimmedLine.indexOf('#');
     if (commentStart >= 0){
       trimmedLine = trimmedLine.substring(0, commentStart);
     }
+    // cut nix-strings
+    trimmedLine = trimmedLine.replace(/\".*\"/g, " ");
 
 
     //matches ( [ { and 'let'
-    var open = ((" " +trimmedLine + " ").match(/[\[{\(]|([\s]let[{\s])/g) || []).length;
+    var open = (trimmedLine.match(/[\[{\(]/g) || []).length;
+    //match let
+    open += (trimmedLine.match(/([\s=;\(]|^)let([\({\s]|$)/g) || []).length;
     //matches ) ] } and 'in'
-    var close = ((" " +trimmedLine + " ").match(/[\]}\)]|([\s]in[{\s])/g) || []).length;
+    var close = ((" " +trimmedLine + " ").match(/[\]}\)]/g) || []).length;
+    close += (trimmedLine.match(/([\s=;\(]|^)in([\({\s]|$)/g) || []).length;
 
     if (close > open && trimmedLine.length <= 3){
       indent = indent + open - close;
@@ -74,13 +84,14 @@ function format(input) {
       for (var j = 0; j < indent; j++){
         indentStr = indentStr + "  ";
       }
-    }else if (close > open && trimmedLine > 3){
+    }else if (close > open && trimmedLine.length > 3){
       indent = indent + open - close;
       indentStr = "";
       for (var j = 0; j < indent; j++){
         indentStr = indentStr + "  ";
       }
     }
+
     doc = doc + line + "\n"
   }
   return doc;
