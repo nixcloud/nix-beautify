@@ -7,6 +7,10 @@ nix-beautify is a tool to indent/format nix based source code and data structure
     git clone https://github.com/nixcloud/nix-beautify
     cd nix-beautify
     nix-env -i nix-beautify -f default.nix
+    
+## directly
+
+    nix-env -i nix-beautify -f https://github.com/nixcloud/nix-beautify/archive/master.tar.gz
 
 # usage
 
